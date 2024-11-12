@@ -8,6 +8,12 @@
       <button @click="queryByDuration('>=', 2)">Over 2 Hours</button>
     </div>
 
+    <div class="filter-controls">
+      <label> Filter By Gerne: </label>
+      <input type="text" v-model="gerneFilter" placeholder="Enter gerne" />
+      <button @click="queryByGerne">Apply</button>
+    </div>
+
     <!-- Display query results -->
     <div class="movie-list">
       <Movie
@@ -55,6 +61,18 @@ export default {
       } catch (error) {
         console.error("Error querying movies by duration:", error);
       }
+    },
+
+    async queryByGerne() {
+      this.queryList = [];
+      const q = query(
+        collection(db, 'movie-database'),
+        where("gerne", "array-contains", this.gerneFilter)
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(doc => {
+        this.queryList.push(doc.data());
+      });
     },
   }
 };
