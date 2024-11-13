@@ -5,7 +5,7 @@
       <p>Rating: {{ rating }}</p>
       <p>Duration: {{ durationH }} hours {{ durationM }} minutes</p>
       <ul>
-        <li v-for="g in genre" :key="g">{{ g }}</li>
+        <li v-for="g in gerne" :key="g">{{ g }}</li>
       </ul>
     </div>
   </template>
@@ -16,7 +16,7 @@
       title: String,
       releaseYear: String,
       rating: String,
-      genre: Array,
+      gerne: Array,
       durationH: Number,
       durationM: Number
     }
