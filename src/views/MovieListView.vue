@@ -61,7 +61,6 @@ export default {
         querySnapshot.forEach(doc => {
           this.queryList.push(doc.data());
         });
-        console.log(this.queryList);
       } catch (error) {
         console.error("Error querying movies by duration:", error);
       }
@@ -77,7 +76,9 @@ export default {
       querySnapshot.forEach(doc => {
         this.queryList.push(doc.data());
       });
-      console.log(this.queryList);
+    },
+    addMovieToList(newMovie) {
+      this.queryList.push(newMovie);
     },
   }
 };
