@@ -24,7 +24,7 @@
         :rating="movie.rating"
         :genre="movie.gerne"
         :durationH="movie.durationHour"
-        :durationM="movie.durationMinute"
+        :durationM="movie.durationMinute"    
       />
     </div>
   </div>
@@ -35,12 +35,15 @@ import { query, collection, getDocs, where } from 'firebase/firestore';
 import { db } from '../firebase/init';
 import Movie from '@/components/Movie.vue';
 
-export default {
+export default {        
   name: "MovieListView",
   components: { Movie },
   data() {
     return {
-      queryList: [],        
+      queryList: [],
+      gerneFilter: " ", 
+      comparison: "=",
+      durationLength: 0,              
     };
   },
   methods: {
@@ -58,6 +61,7 @@ export default {
         querySnapshot.forEach(doc => {
           this.queryList.push(doc.data());
         });
+        console.log(this.queryList);
       } catch (error) {
         console.error("Error querying movies by duration:", error);
       }
@@ -73,6 +77,7 @@ export default {
       querySnapshot.forEach(doc => {
         this.queryList.push(doc.data());
       });
+      console.log(this.queryList);
     },
   }
 };
