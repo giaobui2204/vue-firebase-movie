@@ -5,6 +5,7 @@
       <RouterLink to="/">Home</RouterLink> |
       <RouterLink to="/about">About</RouterLink> |
       <RouterLink to="/movie-list">Movie List</RouterLink>
+      <RouterLink to="/new-movie">New Movie</RouterLink>
     </nav>
     <router-view />
   </div>
