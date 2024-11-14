@@ -69,7 +69,7 @@
       async addMovie() {
         try {
           await addDoc(collection(db, 'movie-database'), this.newMovie);
-          this.$emit('movie-added', { ...this.newMovie });
+          this.$router.push('/movie-list');
           this.resetNewMovie();
         } catch (error) {
           console.error("Error adding movie:", error);
