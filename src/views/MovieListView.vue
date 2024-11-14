@@ -2,6 +2,18 @@
   <div class="container">
     <h1>Movie List</h1>
 
+    <div class ="movie-list content">
+      <Movie 
+        v-for="movie in movieList" 
+        :key="movie.title"
+        :title="movie.title"
+        :releaseYear="movie.releaseYear"
+        :rating="movie.rating"
+        :genre="movie.gerne"
+        :durationH="movie.durationHour"
+        :durationM="movie.durationMinute"  />
+    </div>
+
     <!-- Filter Buttons -->
     <div class="filter-controls">
       <button @click="queryByDuration('<', 2)">Under 2 Hours</button>
@@ -14,7 +26,6 @@
       <button @click="queryByGerne">Apply</button>
     </div>
 
-    <!-- Display query results -->
     <div class="movie-list">
       <Movie
         v-for="movie in queryList"
@@ -32,7 +43,7 @@
 
 <script>
 import { query, collection, getDocs, where } from 'firebase/firestore';
-import { db } from '../firebase/init';
+import { db } from '@/firebase/init';
 import Movie from '@/components/Movie.vue';
 
 export default {        
@@ -40,11 +51,15 @@ export default {
   components: { Movie },
   data() {
     return {
+      movieList: [],
       queryList: [],
       gerneFilter: " ", 
       comparison: "=",
       durationLength: 0,              
     };
+  },
+  created() {
+    this.getAllMovies();
   },
   methods: {
     async queryByDuration(comparison, durationLength) {
@@ -55,8 +70,6 @@ export default {
           collection(db, 'movie-database'),
           where("durationHour", comparison, durationLength)
         );
-
-        // Execute the query and add results to queryList
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach(doc => {
           this.queryList.push(doc.data());
@@ -77,9 +90,21 @@ export default {
         this.queryList.push(doc.data());
       });
     },
-    addMovieToList(newMovie) {
-      this.queryList.push(newMovie);
+
+   async getAllMovies() {
+      try {
+        const q = query(collection(db, 'movies'));
+        const querySnapshot = await getDocs(q);
+        
+        querySnapshot.forEach(doc => {
+          this.movieList.push(doc.data());
+        })
+        console.log(this.movieList);
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+      }
     },
+
   }
 };
 </script>
